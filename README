@@ -1,8 +1,9 @@
 This repo includes a NodeJS server, a package.json file for dependency management and installation, and a public directory to be served by the Node server.
 
 You can clone or download this repo. Once you have done so, from the root directory of the repo, run:
-  npm install
   npm start
+
+The start script should run the 'npm install' command and then run the node server.
 
 You can view and use the application in your browser at:
 http://localhost:8080
