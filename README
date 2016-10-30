@@ -1,0 +1,13 @@
+This repo includes a NodeJS server, a package.json file for dependency management and installation, and a public directory to be served by the Node server.
+
+You can clone or download this repo. Once you have done so, from the root directory of the repo, run:
+  npm install
+  npm start
+
+You can view and use the application in your browser at:
+http://localhost:8080
+
+Future Enhancements
+Add ability for the user to modify the number of reults displayed per page
+Add typeahead functionality for recommendations of previous searches as the user types in the search box
+User authentication via GitHub account in order to be able to take advantage of the autenticated request rate limit
