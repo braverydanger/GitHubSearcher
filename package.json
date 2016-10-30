@@ -5,7 +5,7 @@
   "repository": "",
   "private": true,
   "scripts": {
-    "start": "node nodeServer.js"
+    "start": "npm install && node nodeServer.js"
   },
   "author": "David Shalnine",
   "contributors": [
