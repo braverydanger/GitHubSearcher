@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="css/blog.css" rel="stylesheet">
+
+
+    <meta charset="UTF-8"></meta>
+    <title>GitHub Searcher</title>
+
+</head>
+<body role="document">
+
+<div class="container" data-bind="with: appCtrl">
+    <!-- Page header -->
+    <div class="blog-header text-center">
+        <h1 class="blog-title">GitHub Search</h1>
+        <p class="lead blog-description">Search example using the GitHub API</p>
+    </div>
+
+    <!-- page main body -->
+    <div class="row">
+        <!-- left had search column -->
+        <div class="col-md-3 blog-sidebar">
+            <div class="col-md-12 bottom10">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchTextBox" placeholder="Search for..." data-bind="value: searchText">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="searchButton" type="button">Go!</button>
+                    </span>
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-md-12">
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle input-block-level" type="button" id="recentSearchesButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="badge" data-bind="visible: recentSearches().length > 0, text: recentSearches().length"></span>
+                        Recent Searches
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="recentSearchesButton" data-bind="foreach: recentSearches">
+                        <li><a href="#" data-bind="text: $data, click: $parent.searchForMatches"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- right hand results column -->
+        <div class="col-md-8 col-md-offset-1 blog-main">
+            <div data-bind="visible: viewStatus()=='ok'">
+                <!-- results for searching for specific user -->
+                <div class="row blog-post-title">
+                    User:
+                </div>
+                <div data-bind="if: exactUserFound">
+                    <div class="row bottom10">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <img data-bind="attr:{src: exactUser().avatar_url}" class="avatar img-circle img-responsive" alt="avatar">
+                            </div>
+                        </div>
+
+                        <!-- information column -->
+                        <div class="col-md-9 personal-info">
+                            <h3><a data-bind="attr:{href: exactUser().html_url}, text: exactUser().login" target="_new"></a></h3>
+                        </div>
+                    </div>
+                </div>
+                <div data-bind="ifnot: exactUserFound">
+                    <div class="alert alert-info">
+                        0 Results found for '<span data-bind="text: searchText()"></span>'
+                    </div>
+                </div>
+                <hr>
+
+                <!-- results from searching all users with partial matches to the search string -->
+                <div class="row blog-post-title">
+                    Related searches:
+                </div>
+                <div id="pagination" class="col-md-12 col-lg-12 bottom10"></div>
+                <div data-bind="foreach: users">
+                    <div class="row bottom10 col-md-6 col-lg-6">
+                        <!-- left avatar column -->
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <img data-bind="attr:{src: avatar_url}" class="avatar img-circle img-responsive" alt="avatar">
+                            </div>
+                        </div>
+
+                        <!-- information column -->
+                        <div class="col-md-9 personal-info">
+                            <h3><a data-bind="attr:{href: html_url}, text: login" target="_new"></a></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- alert for 0 results found -->
+            <div data-bind="visible: viewStatus() == 'noResults'">
+                <div class="alert alert-info">
+                    0 Results found for '<span data-bind="text: searchText()"></span>'
+                </div>
+            </div>
+            <!-- error alert for exceeding the rate limit -->
+            <div data-bind="visible: viewStatus() == 'error'">
+                <div class="alert alert-danger">
+                    <span data-bind="text: errorMsg()"></span>
+                    <br>
+                    Rate limit only allows for 10 unauthenticated requests per minute!
+                    <br>
+                    <a data-bind="attr: {href: errorDocumentation}" target="_new">Check the documentation here!</a>
+                </div>
+            </div>
+        </div>
+
+    </div><!-- /.row -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/knockout/knockout-3.3.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script type="text/javascript" src="js/appMain.js"></script>
+<script type="text/javascript" src="js/appCtrl.js"></script>
+<script type="text/javascript" src="js/User.js"></script>
+<script type="text/javascript" src="js/jquery.bootpag.min.js"></script>
+
+</body>
+</html>

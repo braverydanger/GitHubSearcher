@@ -1,0 +1,20 @@
+{
+  "name": "gitHubSearcher",
+  "version": "1.0.0",
+  "description": "Coding exercise using GitHub public API to search GitHub and display the results",
+  "repository": "",
+  "private": true,
+  "scripts": {
+    "start": "node nodeServer.js"
+  },
+  "author": "David Shalnine",
+  "contributors": [
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "4.14.0"
+  },
+  "engines": {
+    "node": ">=0.12.7"
+  }
+}
